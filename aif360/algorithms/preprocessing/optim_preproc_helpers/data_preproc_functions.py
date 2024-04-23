@@ -113,7 +113,7 @@ def load_preproc_data_compas(protected_attributes=None):
         dfcut = df.loc[~df['race'].isin(['Native American','Hispanic','Asian','Other']),:]
 
         # Restrict the features to use
-        dfcutQ = dfcut[['sex','race','age_cat','c_charge_degree','score_text','priors_count','is_recid',
+        dfcutQ = dfcut[['sex','race','age_cat','c_charge_degree','score_text','priors_count','is_recid','decile_score',
                 'two_year_recid','length_of_stay']].copy()
 
         # Quantize priors count between 0, 1-3, and >3
@@ -163,7 +163,7 @@ def load_preproc_data_compas(protected_attributes=None):
         dfcutQ['sex'] = dfcutQ['sex'].replace({'Female': 1.0, 'Male': 0.0})
         dfcutQ['race'] = dfcutQ['race'].apply(lambda x: group_race(x))
 
-        features = ['two_year_recid',
+        features = ['two_year_recid','decile_score',
                     'sex', 'race',
                     'age_cat', 'priors_count', 'c_charge_degree']
 
@@ -174,7 +174,7 @@ def load_preproc_data_compas(protected_attributes=None):
 
     XD_features = ['age_cat', 'c_charge_degree', 'priors_count', 'sex', 'race']
     D_features = ['sex', 'race']  if protected_attributes is None else protected_attributes
-    Y_features = ['two_year_recid']
+    Y_features = ['two_year_recid', 'decile_score']
     X_features = list(set(XD_features)-set(D_features))
     categorical_features = ['age_cat', 'priors_count', 'c_charge_degree']
 
